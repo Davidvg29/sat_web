@@ -9,4 +9,4 @@ src/
 ├── utils/         → Funciones auxiliares (formateo de fechas, generación de tokens, etc.)
 ├── validations/   → Esquemas de validación de datos (con Joi, Yup, express-validator)
 ├── app.js         → Configuración principal de la app Express (middlewares, rutas)
-└── server.js      → Punto de entrada para arrancar el servidor (listen en el puerto)
+└── index.js      → Punto de entrada para arrancar el servidor (listen en el puerto)
