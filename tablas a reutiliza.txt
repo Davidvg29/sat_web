@@ -1,0 +1,6 @@
+tablas a reutiliza
+	estaaa **** sat_users -> contiene usuarios y contraseña
+	estaaa **** sat_usuariosweb_clientes -> contiene iduser, identificacionClienteCodigo
+	usuariosweb_clientes -> contiene idUsuWeb, identificacionClienteCodigo 
+	sat_identificacioncliente_agregar -> info inmueble
+	sat_identificacioncliente -> info inmueble
