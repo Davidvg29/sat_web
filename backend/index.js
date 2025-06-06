@@ -1,5 +1,7 @@
 const app = require('./app');
+const crearClienteMasivo = require('./crearClienteMasivo');
 const crearUserMasivo = require('./crearUserMasivo');
+const alterTable = require('./models/alterTable');
 
 const initDB = require('./models/initDB');
 
@@ -9,7 +11,8 @@ initDB()
         app.listen(PORT, () => {
             console.log(`Conexion exitosa a la base de datos`);
             console.log(`Servidor escuchando en http://localhost:${PORT}`);
-            crearUserMasivo()
+            // crearUserMasivo()
+            // crearClienteMasivo()
         });
     })
     .catch((error) => {

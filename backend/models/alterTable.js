@@ -5,7 +5,7 @@ async function alterTable(tableName, columnName) {
   try {
     await pool.query(`
       ALTER TABLE ${tableName}
-      ADD COLUMN IF NOT EXISTS ${columnName} VARCHAR(50) DEFAULT 'user';
+      ADD COLUMN IF NOT EXISTS ${columnName} VARCHAR(100) DEFAULT 'user';
     `);
     console.log("Columna 'password' agregada (si no existía).");
   } catch (error) {
