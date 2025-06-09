@@ -1,17 +1,17 @@
 const pool = require('../config/db');
 
-const Cliente = async ()=>{
+const cliente = async ()=>{
     try {
         await pool.query(`
-            CREATE TABLE IF NOT EXISTS clientes (
-                idCliente SERIAL PRIMARY KEY,
-                idUser INTEGER NOT NULL,
-                codigoCliente INTEGER NOT NULL);
+            CREATE TABLE IF NOT EXISTS cliente (
+                id_cliente SERIAL PRIMARY KEY,
+                codigoCliente INTEGER UNIQUE NOT NULL
+            );
         `);
-        console.log("Tabla 'Cliente' creada o ya existe.");
+        console.log("Tabla 'cliente' creada o ya existe.");
     } catch (error) {
         console.error('Error al crear tabla cliente:', error);
         throw error;
     }
 }
-module.exports = Cliente;
+module.exports = cliente;

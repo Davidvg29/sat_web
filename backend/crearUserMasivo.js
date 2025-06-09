@@ -11,7 +11,7 @@ const crearUnUsuario = async () => {
     users = JSON.parse(data);
 
     const queryInsert = `
-      INSERT INTO users (idUser, name, username, password, email)
+      INSERT INTO users (id_user, name, username, password, email)
       VALUES ($1, $2, $3, $4, $5)
     `;
     const querySelectName = `

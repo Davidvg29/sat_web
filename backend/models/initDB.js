@@ -1,13 +1,15 @@
 const pool = require("../config/db");
-const User = require("./user");
+const user = require("./user");
 const alterTable = require("./alterTable");
-const Cliente = require("./cliente");
+const cliente = require("./cliente");
+const user_cliente= require("./user_cliente")
 
 const initDB = async ()=>{
     try {
         // await alterTable("users", "password"); // Descomentar si se necesita alterar alguna tabla existente y cambiar parametros
-        await User();
-        await Cliente();
+        await user();
+        await cliente();
+        await user_cliente();
         console.log('Tablas verificadas/creadas correctamente')
     } catch (error) {
         console.error('Error al crear tablas:', error);
