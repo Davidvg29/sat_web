@@ -21,7 +21,7 @@ const crearClienteMasivo = async ()=>{
         if(resultSelectId_cliente.rowCount){
           console.log(`inmueble ${clientes[i].IdentificacionClienteCodigo} ya existe, no se insertará.`); 
         }else{
-            if(clientes[i].UsuClEstado != "DES"){
+            if((clientes[i].UsuClEstado != "DES" || clientes[i].IdentificacionClienteCodigo != 0) && clientes[i].idjuser != 0){
                 await pool.query(queryInsert, [clientes[i].id, clientes[i].IdentificacionClienteCodigo]);
                 console.log(`inmueble ${clientes[i].IdentificacionClienteCodigo} insertado correctamente.`);
             }
