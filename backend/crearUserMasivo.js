@@ -18,14 +18,14 @@ const crearUnUsuario = async () => {
     SELECT name FROM users WHERE email = $1`
    
     for(i=0; i < users.length; i++) {
-      if(users[i].name.length > 50 || users[i].username.length > 50 || users[i].email.length > 50) {
-          try {
-            fs.appendFileSync('usuarioMalos.txt', `${users[i].id}\n`);
-            console.log(`El usuario ${users[i].email} es un usuario malo y se agrego en usuarioMalos.txt`);
-          } catch (err) {
-            console.error('Error al agregar línea en txt:', err);
-          }
-      }else{
+      // if(users[i].name.length > 50 || users[i].username.length > 50 || users[i].email.length > 50) {
+      //     try {
+      //       fs.appendFileSync('usuarioMalos.txt', `${users[i].id}\n${users[i].name}\n${users[i].username}\n`);
+      //       console.log(`El usuario ${users[i].email} es un usuario malo y se agrego en usuarioMalos.txt`);
+      //     } catch (err) {
+      //       console.error('Error al agregar línea en txt:', err);
+      //     }
+      // }else{
         const resultSelectName = await pool.query(querySelectName, [users[i].email]);
         if(resultSelectName.rowCount){
           console.log(`El usuario ${users[i].email} ya existe, no se insertará.`); 
@@ -38,7 +38,7 @@ const crearUnUsuario = async () => {
             console.log("No se pudo insertar el usuario:", users[i].username);
           }
         }
-      }
+      // }
     }
   } catch (error) {
     console.error(`Error al insertar el usuario: ${users[i].email}`, error);

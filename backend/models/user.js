@@ -5,10 +5,10 @@ const user = async()=>{
         await pool.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id_user SERIAL PRIMARY KEY,
-                name VARCHAR(50) NOT NULL,
-                username VARCHAR(50) UNIQUE NOT NULL,
-                password VARCHAR(100) NOT NULL,
-                email VARCHAR(50) UNIQUE NOT NULL,
+                name TEXT NOT NULL,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
                 created_at TIMESTAMP DEFAULT NOW()
             );
         `);
