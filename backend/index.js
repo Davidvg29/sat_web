@@ -14,7 +14,7 @@ initDB()
             console.log(`Servidor escuchando en http://localhost:${PORT}`);
              //crearUserMasivo()
              //crearInmuebleMasivo()
-             crearRelacionUser_inmueble()
+             //crearRelacionUser_inmueble()
         });
     })
     .catch((error) => {

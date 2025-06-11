@@ -19,10 +19,20 @@ const crearRelacionUser_inmueble = async ()=>{
                     SELECT * FROM inmueble WHERE codigoInmueble = $1
                 `
                 const idInmueble = await pool.query(inmueble, [clientes[i].IdentificacionClienteCodigo])
-                
+
                 if(clientes[i].idjuser != 0 && clientes[i].IdentificacionClienteCodigo != 0){
-                    await pool.query(queryInsert, [clientes[i].idjuser, idInmueble.rows[0].id_inmueble]);
-                    console.log(`inmueble ${clientes[i].IdentificacionClienteCodigo} relacionado correctamente.`);
+                    const searchRelacion = `
+                        select * from user_inmueble where id_user = ${clientes[i].idjuser} and id_inmueble = ${idInmueble.rows[0].id_inmueble}
+                    `
+                    const querySearchRelacion = await pool.query(searchRelacion)
+                    console.log(querySearchRelacion.rowCount)
+                    console.log(`${clientes[i].idjuser} - ${idInmueble.rows[0].id_inmueble}`)
+                    if(querySearchRelacion.rowCount != 1){
+                        await pool.query(queryInsert, [clientes[i].idjuser, idInmueble.rows[0].id_inmueble]);
+                        console.log(`inmueble ${clientes[i].IdentificacionClienteCodigo} relacionado correctamente.`);
+                    }else{
+                        console.log(`relacion ${clientes[i].idjuser} - ${idInmueble.rows[0].id_inmueble} ya existe`)
+                    }
                 }
             }
         }
