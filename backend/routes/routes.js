@@ -3,10 +3,16 @@ const router = express.Router();
 
 const prueba = require('../controllers/prueba');
 const auth = require('../controllers/user/auth');
+const relacionUserInmueble = require('../controllers/inmueble/relacionUserInmueble');
+const getInmueble = require('../controllers/inmueble/getInmueble');
 
 router.get('/prueba', prueba);
 
 //user
 router.post("/user/auth", auth);
+
+//inmueble
+router.post("/inmueble/asociar", relacionUserInmueble)
+router.get("/inmueble/:codInmueble", getInmueble)
 
 module.exports = router;
