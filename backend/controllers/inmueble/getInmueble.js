@@ -21,14 +21,14 @@ const getInmueble = async (req, res) => {
             });
         }
 
-        const archivoTest = await leerArchivoRemotoTes(`res_ident_de_clientes${codInmueble}.tes`);
-        if (archivoTest === "0001") {
+        const archivoTes = await leerArchivoRemotoTes(`res_ident_de_clientes${codInmueble}.tes`);
+        if (archivoTes === "0001") {
             return res.status(204).json({
                 status: false,
                 message: "Inmueble sin facturas pendientes",
             });
         }
-        if (!archivoTest) {
+        if (!archivoTes) {
             return res.status(404).json({
                 status: false,
                 message: "Inmueble no encontrado",
