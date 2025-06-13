@@ -8,7 +8,7 @@ const validarCodInmueble = (codInmueble)=>{
     if(!verificaCodAgencia){
         return false
     }
- console.log(verificaCodAgencia)
+
     return true
 }
 module.exports = validarCodInmueble
