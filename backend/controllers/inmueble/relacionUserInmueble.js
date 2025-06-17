@@ -54,14 +54,21 @@ const relacionUserInmueble = async (req, res)=>{
         // busca el inmueble en la tabla inmueble
         const querySearchInmueble = `SELECT * FROM inmueble WHERE codigoInmueble = $1`
         const inmueble = await pool.query(querySearchInmueble, [codInmueble])
+        let idInmueble;
         if(inmueble.rowCount === 0){
             // si no existe se agrega a bd
             const queryAddInmueble = `
                 INSERT INTO inmueble (codigoInmueble)
                 VALUES($1)`
             await pool.query(queryAddInmueble, [codInmueble])
+            const resultInmueble = await pool.query(`
+                    SELECT id_inmueble FROM inmueble WHERE codigoInmueble = $1`, [codInmueble])
+
+            idInmueble = resultInmueble.rows[0].id_inmueble
+        }else{
+                 idInmueble = inmueble.rows[0].id_inmueble
         }
-        const idInmueble = inmueble.rows[0].id_inmueble
+        
         // busca si ya existe relacion en tre user e inmueble 
         const searchRelacion = `select * from user_inmueble where id_user = $1 and id_inmueble = $2`
         const querySearchRelacion = await pool.query(searchRelacion, [idUser, idInmueble])
