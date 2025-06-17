@@ -73,4 +73,4 @@ const FormLogin = ()=>{
       </div>
     )
 }
-module.exports = FormLogin
+export default FormLogin
