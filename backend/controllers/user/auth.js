@@ -20,7 +20,10 @@ const auth = async (req, res) => {
       return res.status(401).json({ message: "Credenciales incorrectas" });
     }
 
-    res.status(200).json({ message: "Autenticación exitosa" });
+    res.status(200).json({ 
+      username: username,
+      message: "Autenticación exitosa" 
+    });
 
   } catch (error) {
     console.error("Error:", error);
