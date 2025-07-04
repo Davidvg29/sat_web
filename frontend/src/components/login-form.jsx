@@ -53,10 +53,9 @@ export function LoginForm({className, ...props}){
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">SAT - Sociedad Aguas del Tucumán</h1>
-                <p className="text-muted-foreground text-balance">
+                {/* <p className="text-muted-foreground text-balance">
                   Login to your Acme Inc account
-                </p>
-                <p className="text-red-400">{message}</p>
+                </p> */}
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="username">Usuario</Label>
@@ -65,22 +64,23 @@ export function LoginForm({className, ...props}){
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Contraseña</Label>
-                  <a href="#" className="ml-auto text-sm underline-offset-2 hover:underline">
+                  {/* <a href="#" className="ml-auto text-sm underline-offset-2 hover:underline">
                     Forgot your password?
-                  </a>
+                  </a> */}
                 </div>
                 <Input id="password" name="password" value={datas.password} onChange={handleData} type="password" required />
               </div>
+              <p className="text-red-400 text-center">{message}</p>
               <Button type="submit" className="w-full" onClick={sendData}>
                 Login
               </Button>
-              <div
+              {/* <div
                 className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-card text-muted-foreground relative z-10 px-2">
                   Or continue with
                 </span>
-              </div>
-              <div className="grid grid-cols-3 gap-4">
+              </div> */}
+              {/* <div className="grid grid-cols-3 gap-4">
                 <Button variant="outline" type="button" className="w-full">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path
@@ -105,13 +105,13 @@ export function LoginForm({className, ...props}){
                   </svg>
                   <span className="sr-only">Login with Meta</span>
                 </Button>
-              </div>
-              <div className="text-center text-sm">
+              </div> */}
+              {/* <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
                 <a href="#" className="underline underline-offset-4">
                   Sign up
                 </a>
-              </div>
+              </div> */}
             </div>
           </form>
           <div className="bg-muted relative hidden md:block">
@@ -122,11 +122,11 @@ export function LoginForm({className, ...props}){
           </div>
         </CardContent>
       </Card>
-      <div
+      {/* <div
         className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
-      </div>
+      </div> */}
     </div>
   );
 }
