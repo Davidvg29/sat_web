@@ -4,11 +4,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import imgPlaceholder from "../assets/placeholder.svg"
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useNavigate  } from "react-router-dom"
+import api from "@/axios/api"
+import { useDispatch } from "react-redux"
+import { setUser } from "@/redux/action"
 
 export function LoginForm({className, ...props}){
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [datas, setData] = useState({
     username: "",
@@ -26,10 +29,11 @@ export function LoginForm({className, ...props}){
   const sendData = async(e)=>{
     e.preventDefault()
     try {
-      const {data} = await axios.post("http://localhost:3000/api/user/auth", datas)
-      console.log(data.message)
+      const {data} = await api.post("/user/auth", datas)
+      console.log(data)
       setMessage("")
-      navigate("/inmuebles")
+      dispatch(setUser({username: data.username}))
+      navigate("/usuario")
     } catch (error) {
       if(error.response){
         if(error.response.status === 401){
