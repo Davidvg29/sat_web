@@ -19,7 +19,7 @@ const getInfo = async(req, res)=>{
             left join inmueble i on ui.id_inmueble = i.id_inmueble 
             where u.id_user = $1`
         const relacion = await pool.query(queryGetRelacion, [user.rows[0].id_user])
-
+        console.log(relacion)
         const infoUser = {
             id: user.rows[0].id_user,
             name: user.rows[0].name,
@@ -30,10 +30,15 @@ const getInfo = async(req, res)=>{
             infoUser.inmuebles.push(r.codigoinmueble);
         });
 
-        res.status(200).json(infoUser)
+        res.status(200).json({
+            status: true,
+            message: "Usuario encontrado exitosamente.",
+            data: infoUser
+        })
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({
+        status: false,
         message: "Error al obtener informacion del usuario",
         error: error.message
         });

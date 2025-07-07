@@ -1,4 +1,3 @@
-
 const { Client } = require('ssh2');
 require("dotenv").config();
 
@@ -25,10 +24,10 @@ exports.connectSSH = async () => {
     }
 }
 
-exports.crearArchivoRemoto = async (identificacionClienteCodigo) => {
-    let conn;
+exports.crearArchivoRemoto = async (identificacionClienteCodigo, conn) => {
+    // let conn;
     try {
-        conn = await exports.connectSSH();
+        // conn = await exports.connectSSH();
         let command = `mkdir -p /${process.env.DIRECTORIO_SOLICITUD} && echo "${identificacionClienteCodigo}" > /${process.env.DIRECTORIO_SOLICITUD}/sol_facturas_vigentes${identificacionClienteCodigo}`;
         await new Promise((resolve, reject) => {
             conn.exec(command, (err, stream) => {
@@ -55,17 +54,17 @@ exports.crearArchivoRemoto = async (identificacionClienteCodigo) => {
         console.error('❌ Error al crear el archivo:', error);
         return false
     } finally {
-        if (conn) conn.end();
+        // if (conn) conn.end();
         return true
     }
 }
 
-exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente) => {
-    let conn;
+exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente, conn) => {
+    // let conn;
     let fileContent = ''; // Asegúrate de inicializar fileContent
     try {
         let command = `cat /${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
-        conn = await exports.connectSSH();
+        // conn = await exports.connectSSH();
 
         // Usamos la promesa para manejar la ejecución del comando SSH
         let exist = true
@@ -98,7 +97,7 @@ exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente) => {
         console.error('❌ Error al leer el archivo:', error);
         return false; // Si ocurre un error, retornamos false
     } finally {
-        if (conn) conn.end(); // Cerramos la conexión SSH
+        // if (conn) conn.end(); // Cerramos la conexión SSH
         console.log(fileContent)
         // Verificar el contenido del archivo
         if (fileContent.trim() == "0000") {
@@ -111,12 +110,12 @@ exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente) => {
     }
 };
 
-exports.leerArchivoRemotoTxt = async (nombreArchivoMasCodigoCliente) => {
-    let conn;
+exports.leerArchivoRemotoTxt = async (nombreArchivoMasCodigoCliente, conn) => {
+    // let conn;
     let fileContent = ''; // Asegúrate de inicializar fileContent
     try {
         let command = `cat /${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
-        conn = await exports.connectSSH();
+        // conn = await exports.connectSSH();
         // Usamos la promesa para manejar la ejecución del comando SSH
         await new Promise((resolve, reject) => {
             conn.exec(command, (err, stream) => {
@@ -145,64 +144,68 @@ exports.leerArchivoRemotoTxt = async (nombreArchivoMasCodigoCliente) => {
         console.error('❌ Error al leer el archivo:', error);
         return false; // Si ocurre un error, retornamos false
     } finally {
-        if (conn) conn.end(); // Cerramos la conexión SSH
+        // if (conn) conn.end(); // Cerramos la conexión SSH
         console.log(fileContent)
         return fileContent;
     }
 };
 
-exports.getFacturasVigentesSAT = async (numFactura) => {
-    // guarda el pdf en el directorio cache
+exports.getFacturasVigentesSAT = async (nombreArchivo, conn) => {
     const fs = require("fs");
     const path = require("path");
-    let conn;
+    // let conn;
     let namePDF;
 
     try {
-        conn = await exports.connectSSH();
-        namePDF = `/${process.env.DIRECTORIO_RESPUESTA}/res_facturas_vigentes${numFactura}.pdf`;
+        // conn = await exports.connectSSH();
+        namePDF = `/${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivo}`;
 
-        // Ruta local donde se guardará el archivo
         const localFolderPath = path.join(__dirname, "../cache");
-        const localFilePath = path.join(localFolderPath, `res_facturas_vigentes${numFactura}.pdf`);
+        const localFilePath = path.join(localFolderPath, nombreArchivo);
 
-        // Asegurarse de que la carpeta local existe
         if (!fs.existsSync(localFolderPath)) {
             fs.mkdirSync(localFolderPath, { recursive: true });
         }
 
-        // Usar 'exec' para ejecutar el comando remoto
-        conn.exec(`cat ${namePDF}`, (err, stream) => {
-            if (err) {
-                console.error('❌ Error al ejecutar comando remoto:', err);
-                conn.end();
-                return;
-            }
+        const success = await new Promise((resolve, reject) => {
+            conn.exec(`cat ${namePDF}`, (err, stream) => {
+                if (err) {
+                    console.error('❌ Error al ejecutar comando remoto:', err);
+                    conn.end();
+                    return reject(false);
+                }
 
-            // Crear un buffer para almacenar los datos binarios
-            let fileData = Buffer.alloc(0);
+                let fileData = Buffer.alloc(0);
 
-            stream.on('data', (chunk) => {
-                // Concatenar los fragmentos binarios correctamente
-                fileData = Buffer.concat([fileData, chunk]);
-                // console.log('Recibiendo chunk:', chunk);  // Mostrar el chunk binario
-            });
-
-            stream.on('close', () => {
-                // Guardar el contenido binario directamente en el archivo local
-                fs.writeFile(localFilePath, fileData, (err) => {
-                    if (err) {
-                        console.error('❌ Error al guardar el archivo localmente:', err);
-                    } else {
-                        console.log(`✅ Archivo descargado con éxito: ${localFilePath}`);
-                    }
+                stream.on('data', (chunk) => {
+                    fileData = Buffer.concat([fileData, chunk]);
                 });
-                conn.end();
+
+                stream.on('close', () => {
+                    fs.writeFile(localFilePath, fileData, (err) => {
+                        // conn.end();
+                        if (err) {
+                            console.error('❌ Error al guardar el archivo localmente:', err);
+                            return reject(false);
+                        } else {
+                            console.log(`✅ Archivo descargado con éxito: ${localFilePath}`);
+                            return resolve(true);
+                        }
+                    });
+                });
+
+                stream.on('error', (streamErr) => {
+                    console.error("❌ Error en el stream:", streamErr);
+                    conn.end();
+                    return reject(false);
+                });
             });
         });
 
+        return success;
+
     } catch (error) {
-        console.error('❌ Error al obtener archivo PDF:', error);
+        console.error('❌ Error general al obtener archivo PDF:', error);
         return false;
     }
 };
