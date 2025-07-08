@@ -1,7 +1,9 @@
+import CardInmuebleDetalle from "@/components/CardInmuebleDetalle"
+
 const Inmueble = ()=>{
     return(
         <>
-            inmueble
+            <CardInmuebleDetalle/>
         </>
     )
 }
