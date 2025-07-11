@@ -13,21 +13,42 @@ const getInfo = async(req, res)=>{
         }
 
         const queryGetRelacion = `
-            select name, ui.id_inmueble, codigoInmueble 
-            from users u 
-            left join user_inmueble ui on u.id_user = ui.id_user 
-            left join inmueble i on ui.id_inmueble = i.id_inmueble 
-            where u.id_user = $1`
+            SELECT 
+                name, 
+                ui.id_inmueble, 
+                codigoInmueble, 
+                nombre AS titular,
+                TRIM(
+                    CONCAT_WS(
+                        ' ',
+                        CASE WHEN calle <> '' THEN 'Calle: ' || calle ELSE NULL END,
+                        CASE WHEN numero <> '' AND numero <> '0' THEN numero ELSE NULL END,
+                        CASE WHEN piso <> '' THEN ', Piso: ' || piso ELSE NULL END,
+                        CASE WHEN depto <> '' THEN ', Depto: ' || depto ELSE NULL END,
+                        CASE WHEN manzana <> '' THEN ', Manzana: ' || manzana ELSE NULL END,
+                        CASE WHEN block <> '' THEN ', Block: ' || block ELSE NULL END,
+                        CASE WHEN lote <> '' THEN ', Lote: ' || lote ELSE NULL END,
+                        CASE WHEN casa <> '' THEN ', Casa: ' || casa ELSE NULL END,
+                        CASE WHEN barrio <> '' THEN ', Barrio: ' || barrio ELSE NULL END,
+                        CASE WHEN localidad <> '' THEN localidad ELSE NULL END
+                    )
+                ) AS direccion
+            FROM users u 
+            LEFT JOIN user_inmueble ui ON u.id_user = ui.id_user 
+            LEFT JOIN inmueble i ON ui.id_inmueble = i.id_inmueble
+            WHERE u.id_user = $1;
+            `
         const relacion = await pool.query(queryGetRelacion, [user.rows[0].id_user])
-        console.log(relacion)
+        //console.log(relacion)
         const infoUser = {
             id: user.rows[0].id_user,
             name: user.rows[0].name,
             email: user.rows[0].email,
             inmuebles: []
         }
-        relacion.rows.forEach((r) => {
-            infoUser.inmuebles.push(r.codigoinmueble);
+        relacion.rows.forEach((i) => {
+            infoUser.inmuebles.push({codInmueble: i.codigoinmueble, titular: i.titular, direccion: i.direccion});
+            
         });
 
         res.status(200).json({

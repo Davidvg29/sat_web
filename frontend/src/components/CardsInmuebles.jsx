@@ -15,21 +15,21 @@ const CardsInmuebles = ({className, ...props}) => {
     const inmuebles = useSelector((state)=>state.user.inmuebles)
     console.log(inmuebles)
     return ( 
-        <div className={cn("flex justify-center", className)}{...props}>
+        <div className={cn("flex justify-center flex-wrap", className)}{...props}>
             {inmuebles && inmuebles.map((i)=>(
-                <Link to={`/usuario/inmueble/${i}`} key={i}>
+                <Link to={`/usuario/inmueble/${i.codInmueble}`} key={i.codInmueble}>
                     <Card className={"m-3"}>
                     <CardHeader>
-                        <CardTitle>{`Nº de inmueble: ${i}`}</CardTitle>
-                        <CardDescription>Card Description</CardDescription>
-                        {/* <CardAction>Ver detalles</CardAction> */}
+                        <CardTitle>{`Nº de inmueble: ${i.codInmueble}`}</CardTitle>
+                        {/* <CardDescription>Card Description</CardDescription> */}
                     </CardHeader>
                     <CardContent>
-                        <p>Card Content</p>
+                        <p><b>Titular:</b> {i.titular}</p>
+                        <p><b>Direccion: </b>{i.direccion}</p>
                     </CardContent>
-                    <CardFooter>
+                    {/* <CardFooter>
                         <p>Card Footer</p>
-                    </CardFooter>
+                    </CardFooter> */}
                     </Card>
                 </Link>
             ))}

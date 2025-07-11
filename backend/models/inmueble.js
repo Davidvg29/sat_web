@@ -26,10 +26,3 @@ const inmueble = async ()=>{
     }
 }
 module.exports = inmueble;
-
-
-
-
-
-
-
