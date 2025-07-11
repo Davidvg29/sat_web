@@ -70,12 +70,13 @@ const CardInmuebleDetalle = ({className, ...props}) => {
                     <div>
                         <h2>Información  de inmueble</h2>
                         <p><b>N.º de inmueble:</b> {codInmueble}</p>
-                        <p><b>Nombre:</b> {nombre}</p>
+                        {nombre.length>0 ? (<p><b>Nombre:</b> {nombre}</p>): ""}
                     </div>
                     <div>
-                        <h2>Dirección: </h2>
+                        {calle ? (<h2>Dirección: </h2>) : ""}
                         <div>
-                            <p><b>Calle:</b> {calle} {numero!=="00000" ? numero : ""}</p>
+                            {calle ? (<p><b>Calle:</b>{calle} {numero!=="00000" ? numero : ""}</p>): ""}
+                             {/* <p><b>Calle:</b> {calle} {numero!=="00000" ? numero : ""}</p> */}
                             {piso ? (<p><b>Piso:</b> {piso} </p>) : ""}
                             {depto ? (<p><b>Departamento:</b> {depto} </p>) : ""}
                             {manzana ? (<p><b>Manzana:</b> {manzana} </p>) : ""}
