@@ -42,6 +42,7 @@
 }
 
 :root {
+  --azul-sat: rgb(73, 173, 223);
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -117,4 +118,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body{
+  background-color: rgb(247, 252, 255);
 }

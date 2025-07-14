@@ -1,5 +1,6 @@
 import api from "@/axios/api"
 import CardsInmuebles from "@/components/CardsInmuebles"
+import Header from "@/components/Header"
 import { setUser } from "@/redux/action"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
@@ -33,6 +34,7 @@ const User = ()=>{
 
     return(
         <>
+            <Header/>
             <CardsInmuebles/>
         </>
     )

@@ -182,8 +182,13 @@ exports.getFacturasVigentesSAT = async (nombreArchivo, conn) => {
                 });
 
                 stream.on('close', () => {
+                    if (fileData.length === 0) {
+                    console.error('❌ El archivo remoto está vacío o no existe.');
+                    conn.end();
+                    return reject(false);
+                    }
                     fs.writeFile(localFilePath, fileData, (err) => {
-                        // conn.end();
+                        conn.end();
                         if (err) {
                             console.error('❌ Error al guardar el archivo localmente:', err);
                             return reject(false);
@@ -206,6 +211,7 @@ exports.getFacturasVigentesSAT = async (nombreArchivo, conn) => {
 
     } catch (error) {
         console.error('❌ Error general al obtener archivo PDF:', error);
+        if (conn && conn.end) conn.end();
         return false;
     }
 };
