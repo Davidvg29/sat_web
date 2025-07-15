@@ -14,7 +14,7 @@ import qr from "../assets/qr.png"
 const DrawerQr = () => {
     return ( 
         <Drawer>
-  <DrawerTrigger>PAGAR CON QR</DrawerTrigger>
+  <DrawerTrigger><Button className="w-65 mt-2">PAGAR CON QR</Button></DrawerTrigger>
   <DrawerContent>
     <DrawerHeader>
       <DrawerTitle>Pagar con codigo QR.</DrawerTitle>

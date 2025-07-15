@@ -1,5 +1,6 @@
 const { connectSSH, getFacturasVigentesSAT } = require("../../services/funcionesAccesoRemoto")
 const path = require("path")
+const fs = require("fs").promises
 
 const getFacturaPdf = async(req, res)=>{
     try {
@@ -17,7 +18,20 @@ const getFacturaPdf = async(req, res)=>{
         const filePath = path.join(__dirname, "../../cache", nombreArchivo);
         res.setHeader("Content-Type", "application/pdf");
         res.setHeader("Content-Disposition", "inline; filename=" + nombreArchivo);
-        res.sendFile(filePath);
+        res.sendFile(filePath, (err)=>{
+           if (err) {
+                console.error("Error al enviar el archivo:", err);
+                return res.status(404).json({
+                    status: false,
+                    message: "Error al enviar PDF."
+                })
+            }
+
+            fs.unlink(filePath)
+                .then(() => console.log("PDF eliminado correctamente."))
+                .catch((err) => console.error("Error al eliminar el PDF:", err));
+        });
+        // fs.unlink(filePath)
     } catch (error) {
         return res.status(500).json({
             status: false,

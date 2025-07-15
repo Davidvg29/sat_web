@@ -6,7 +6,7 @@ const auth = require('../controllers/user/auth');
 const relacionUserInmueble = require('../controllers/inmueble/relacionUserInmueble');
 const getInmueble = require('../controllers/inmueble/getInmueble');
 const getInfo = require('../controllers/user/getInfo');
-const getFacturaPdf = require('../controllers/inmueble/getFacturaPdf');
+const getFacturaPdf = require('../controllers/factura/getFacturaPdf');
 
 router.get('/prueba', prueba);
 

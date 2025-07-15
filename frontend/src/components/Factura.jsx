@@ -51,13 +51,15 @@ const Factura = ({factura, className, ...props}) => {
             <CardContent>
                 <p>Periodo: {factura.periodo}</p>
                 <p>Vencimiento: {factura.vencimiento}</p>
-                <b>$ {factura.importe}</b>
+                <p className="text-2xl text-center"><b >$ {factura.importe}</b></p>
             </CardContent>
             {/* <Button>PAGAR CON QR</Button> */}
-            <DrawerQr factura={factura}/>
-            <Button>CLICK DE PAGO</Button>
-            <Button>MERCADO PAGO</Button>
-            <Button onClick={getFacturaPdf}>VER PDF</Button>
+            <div className=" flex flex-col items-center">
+                <DrawerQr factura={factura}/>
+                <Button className="w-65 mt-2">CLICK DE PAGO</Button>
+                <Button className="w-65 mt-2">MERCADO PAGO</Button>
+                <Button className="w-65 mt-2" onClick={getFacturaPdf}>VER PDF</Button>
+            </div>
             {/* <CardFooter>
                 <p>Card Footer</p>
             </CardFooter> */}
