@@ -14,6 +14,8 @@ import api from "@/axios/api";
 import { useState } from "react";
 import { Loader } from "./Loader";
 
+import { Eye, FileDown } from 'lucide-react';
+
 const Factura = ({factura, className, ...props}) => {
 
     const [message, setMessage] = useState("")
@@ -44,9 +46,19 @@ const Factura = ({factura, className, ...props}) => {
     return ( 
         <Card className={cn("w-80 m-3", className)} {...props}>
             <CardHeader>
-                <CardTitle>Nº Factura: {`${factura.prefijo}-${factura.numFactura}`}</CardTitle>
+                <div className="flex justify-between items-center">
+                    <CardTitle>Nº Factura: {`${factura.prefijo}-${factura.numFactura}`}</CardTitle>
                 {/* <CardDescription>Card Description</CardDescription> */}
                 {/* <CardAction>Card Action</CardAction> */}
+                    <div className="w-20 flex flex-col justify-center items-center hover:bg-sky-100 cursor-pointer rounded-lg p-px" onClick={getFacturaPdf}>
+                        <Eye/>
+                        <p className="text-xs">ver</p>
+                    </div>
+                    <div className="w-20 flex flex-col justify-center items-center hover:bg-sky-100 cursor-pointer rounded-lg p-px">
+                        <FileDown/>
+                        <p className="text-xs">descargar</p>
+                    </div>
+                </div>
             </CardHeader>
             <CardContent>
                 <p>Periodo: {factura.periodo}</p>
@@ -58,7 +70,7 @@ const Factura = ({factura, className, ...props}) => {
                 <DrawerQr factura={factura}/>
                 <Button className="w-65 mt-2">CLICK DE PAGO</Button>
                 <Button className="w-65 mt-2">MERCADO PAGO</Button>
-                <Button className="w-65 mt-2" onClick={getFacturaPdf}>VER PDF</Button>
+                {/* <Button className="w-65 mt-2" onClick={getFacturaPdf}>VER PDF</Button> */}
             </div>
             {/* <CardFooter>
                 <p>Card Footer</p>
