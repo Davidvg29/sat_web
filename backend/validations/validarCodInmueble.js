@@ -1,5 +1,5 @@
 const validarCodInmueble = (codInmueble)=>{
-    if(codInmueble.length !== 8){
+    if(codInmueble.length !== 8 || isNaN(codInmueble)){
         return false
     }
     
