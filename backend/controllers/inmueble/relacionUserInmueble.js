@@ -1,5 +1,5 @@
 const pool = require("../../config/db")
-const { crearArchivoRemoto, leerArchivoRemotoTes } = require("../../services/funcionesAccesoRemoto")
+const { crearArchivoRemoto, leerArchivoRemotoTes, connectSSH, leerArchivoRemotoTxt } = require("../../services/funcionesAccesoRemoto")
 const validarCodInmueble = require("../../validations/validarCodInmueble")
 
 const relacionUserInmueble = async (req, res)=>{
@@ -33,8 +33,10 @@ const relacionUserInmueble = async (req, res)=>{
             })
         }
 
+        //crea conexion ssh
+        const conn = await connectSSH()
         // crea archivo remoto
-        const archivoRemoto = await crearArchivoRemoto(codInmueble)
+        const archivoRemoto = await crearArchivoRemoto(codInmueble, conn)
         if (!archivoRemoto) {
             return res.status(500).json({
                 status: false,
@@ -43,7 +45,7 @@ const relacionUserInmueble = async (req, res)=>{
         }
 
         // valida si existe el inmueble en el comunica
-        const archivoTes = await leerArchivoRemotoTes(`res_ident_de_clientes${codInmueble}.tes`)
+        const archivoTes = await leerArchivoRemotoTes(`res_ident_de_clientes${codInmueble}.tes`, conn)
         if (archivoTes === "0002") {
             return res.status(204).json({
                 status: false,
@@ -57,10 +59,22 @@ const relacionUserInmueble = async (req, res)=>{
         let idInmueble;
         if(inmueble.rowCount === 0){
             // si no existe se agrega a bd
+            const archivoTxt = await leerArchivoRemotoTxt(`res_ident_de_clientes${codInmueble}.txt`, conn)
+            const nombre = archivoTxt.toString().slice(23, 50).trim(),
+                calle = archivoTxt.toString().slice(73, 103).trim(),
+                numero = archivoTxt.toString().slice(103, 108).trim(),
+                piso = archivoTxt.toString().slice(108, 110).trim(),
+                depto = archivoTxt.toString().slice(110, 113).trim(),
+                manzana = archivoTxt.toString().slice(113, 116).trim(),
+                block = archivoTxt.toString().slice(116, 119).trim(),
+                lote = archivoTxt.toString().slice(119, 122).trim(),
+                casa = archivoTxt.toString().slice(122, 125).trim(),
+                barrio = archivoTxt.toString().slice(125, 155).trim(),
+                localidad = archivoTxt.toString().slice(155, 185).trim()
             const queryAddInmueble = `
-                INSERT INTO inmueble (codigoInmueble)
-                VALUES($1)`
-            await pool.query(queryAddInmueble, [codInmueble])
+                INSERT INTO inmueble (codigoInmueble, nombre, calle, numero, piso, depto, manzana, block, lote, casa, barrio, localidad)
+                VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`
+            await pool.query(queryAddInmueble, [codInmueble, nombre, calle, numero, piso, depto, manzana, block, lote, casa, barrio, localidad])
             const resultInmueble = await pool.query(`
                     SELECT id_inmueble FROM inmueble WHERE codigoInmueble = $1`, [codInmueble])
 
