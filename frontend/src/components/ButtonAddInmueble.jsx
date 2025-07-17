@@ -15,9 +15,11 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import validarCodInmueble from "../validations/validarCodInmueble"
 import { Loader } from "./Loader"
+import { useSelector } from "react-redux"
 
 export function ButtonAddInmueble() {
   
+  const idUser = useSelector((state)=>state.user.id)
   const [open, setOpen] = useState(false);
   const [codInmueble, setCodInmueble] = useState("")
   const [inmueble, setInmueble] = useState({
@@ -40,6 +42,7 @@ export function ButtonAddInmueble() {
   const [btnVincular, setBtnVincular] = useState(true)
   const [btnBuscar, setBtnBuscar] = useState(false)
   const [loader, setLoader] = useState(false)
+  const [textLoader, setTextLoader] = useState("")
 
   const onChangeCodInmueble = (e)=>{
     setCodInmueble(e.target.value)
@@ -48,6 +51,7 @@ export function ButtonAddInmueble() {
 
   const searchInfoInmueble = async ()=>{
     try {
+      setTextLoader("Buscando inmueble...")
       setLoader(true)
       const validation = validarCodInmueble(codInmueble)
       if(!validation){
@@ -78,6 +82,7 @@ export function ButtonAddInmueble() {
       }
       console.log(data)
     } catch (error) {
+      setLoader(false)
       console.log(error)
       if(error?.response?.status === 404){return setMessage(error.response.data.message)}
       setMessage("Ocurrio un error, intente luego.")
@@ -86,6 +91,7 @@ export function ButtonAddInmueble() {
 
   const clear = ()=>{
     setMessage("")
+    setTextLoader("")
     setBtnVincular(true)
     setBtnBuscar(false)
     setInmueble({
@@ -111,7 +117,32 @@ export function ButtonAddInmueble() {
     direccion: { calle, numero, piso, depto, manzana, block, lote, casa, barrio, localidad },
   } = inmueble;
 
-  console.log(inmueble)
+  const vincularInmueble = async()=>{
+    try {
+      setTextLoader("Vinculando inmueble...")
+      setLoader(true)
+      const {data} = await api.post("/inmueble/asociar", {idUser: idUser, codInmueble: codInmueble})
+      console.log(data)
+      if(data.status){
+        setLoader(false)
+        setOpen(false)
+      }
+    } catch (error) {
+      setLoader(false)
+      console.log(error)
+      if(error.response){
+        if(error.response.status === 404){
+        setMessage(error.response.data.message)
+        }else if(error.response.status === 500){
+          setMessage("Ocurrio un error, intente mas tarde.")
+        }
+      }else if(error.request){
+        setMessage("Ocurrio un error, intente mas tarde.")
+      }else{
+        setMessage("Ocurrio un error, intente mas tarde.")
+      }
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => {setOpen(isOpen);if (!isOpen) clear();}}>
@@ -122,25 +153,28 @@ export function ButtonAddInmueble() {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{inmueble.codInmueble !== "" ? ("Vincular inmueble:") : "Ingrese codigo de cliente"}</DialogTitle>
-            <DialogDescription>
-              {inmueble.codInmueble !== "" ? (
-                <div>
-                  {codInmueble && <p><b>Nº inmueble: {codInmueble}</b></p>}
-                  {nombre && <p><b>Titular: {nombre}</b></p>}
-                  <div className="flex flex-wrap gap-x-2  items-center">
-                    {calle && <p><b>Dirección:</b></p>}
-                    {calle && <p>{calle} {numero !== "00000" ? numero : ""},</p>}
-                    {piso && <p>Piso: {piso},</p>}
-                    {depto && <p>Departamento: {depto},</p>}
-                    {manzana && <p>Manzana: {manzana},</p>}
-                    {block && <p>Block: {block},</p>}
-                    {lote && <p>Lote: {lote},</p>}
-                    {casa && <p>Casa: {casa},</p>}
-                    {barrio && <p>Barrio: {barrio},</p>}
-                    {localidad && <p>Localidad: {localidad}.</p>}
-                  </div>
-                </div>) : "El codigo de cliente de 8 digitos se encuentra en la parte superior derecha de la factura."}
-            </DialogDescription>
+            {inmueble.codInmueble !== "" ? (
+              <div className="text-sm text-muted-foreground">
+                {codInmueble && <p><b>Nº inmueble: {codInmueble}</b></p>}
+                {nombre && <p><b>Titular: {nombre}</b></p>}
+                <div className="flex flex-wrap gap-x-2 items-center">
+                  {calle && <p><b>Dirección:</b></p>}
+                  {calle && <p>{calle} {numero !== "00000" ? numero : ""},</p>}
+                  {piso && <p>Piso: {piso},</p>}
+                  {depto && <p>Departamento: {depto},</p>}
+                  {manzana && <p>Manzana: {manzana},</p>}
+                  {block && <p>Block: {block},</p>}
+                  {lote && <p>Lote: {lote},</p>}
+                  {casa && <p>Casa: {casa},</p>}
+                  {barrio && <p>Barrio: {barrio},</p>}
+                  {localidad && <p>Localidad: {localidad}.</p>}
+                </div>
+              </div>
+            ) : (
+              <DialogDescription>
+                El codigo de cliente de 8 digitos se encuentra en la parte superior derecha de la factura.
+              </DialogDescription>
+            )}
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
@@ -152,10 +186,10 @@ export function ButtonAddInmueble() {
             <DialogClose asChild>
               <Button variant="outline" onClick={clear}>Cancelar</Button>
             </DialogClose>
-            <Button type="submit" disabled={btnVincular}>Vincular</Button>
-            <Button type="submit" onClick={searchInfoInmueble} disabled={btnBuscar}>Buscar</Button>
+            <Button disabled={btnVincular} onClick={vincularInmueble}>Vincular</Button>
+            <Button onClick={searchInfoInmueble} disabled={btnBuscar}>Buscar</Button>
           </DialogFooter>
-          {loader ? (<Loader text="Buscando inmueble..." />) : false}
+          {loader ? (<Loader text={textLoader} />) : false}
         </DialogContent>
       </form>
     </Dialog>
