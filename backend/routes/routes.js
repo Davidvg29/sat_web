@@ -7,6 +7,7 @@ const relacionUserInmueble = require('../controllers/inmueble/relacionUserInmueb
 const getInmueble = require('../controllers/inmueble/getInmueble');
 const getInfo = require('../controllers/user/getInfo');
 const getFacturaPdf = require('../controllers/factura/getFacturaPdf');
+const deleteRelacionUserInmueble = require('../controllers/inmueble/deleteRelacionUserInmueble');
 
 router.get('/prueba', prueba);
 
@@ -17,6 +18,7 @@ router.get("/user", getInfo)
 //inmueble
 router.post("/inmueble/asociar", relacionUserInmueble)
 router.get("/inmueble/:codInmueble", getInmueble)
+router.delete("/inmueble/desasociar", deleteRelacionUserInmueble)
 
 //factura
 router.get("/factura/:numFactura", getFacturaPdf)
