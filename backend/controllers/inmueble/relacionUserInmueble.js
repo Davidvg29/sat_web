@@ -46,8 +46,8 @@ const relacionUserInmueble = async (req, res)=>{
 
         // valida si existe el inmueble en el comunica
         const archivoTes = await leerArchivoRemotoTes(`res_ident_de_clientes${codInmueble}.tes`, conn)
-        if (archivoTes === "0002") {
-            return res.status(204).json({
+        if (!archivoTes) {
+            return res.status(404).json({
                 status: false,
                 message: "Inmueble no existe",
             });
@@ -83,13 +83,13 @@ const relacionUserInmueble = async (req, res)=>{
                  idInmueble = inmueble.rows[0].id_inmueble
         }
         
-        // busca si ya existe relacion en tre user e inmueble 
+        // busca si ya existe relacion entre user e inmueble 
         const searchRelacion = `select * from user_inmueble where id_user = $1 and id_inmueble = $2`
         const querySearchRelacion = await pool.query(searchRelacion, [idUser, idInmueble])
         if(querySearchRelacion.rowCount === 1){
             return res.status(200).json({
                 status: true,
-                message: `Relacion idUser: ${idUser} y codInmueble: ${codInmueble} ya existe`
+                message: `Este inmueble ya esta vinculado a tu cuenta.`
             })
         }
 
@@ -101,7 +101,7 @@ const relacionUserInmueble = async (req, res)=>{
 
         return res.status(200).json({
             status: true,
-            message: `Relacion idUser: ${idUser} y codInmueble: ${codInmueble} relacionado correctamente`
+            message: `Inmueble vinculado correctamente a tu cuenta.`
         })
 
     } catch (error) {
