@@ -47,7 +47,7 @@ const getInfo = async(req, res)=>{
             inmuebles: []
         }
         relacion.rows.forEach((i) => {
-            infoUser.inmuebles.push({codInmueble: i.codigoinmueble, titular: i.titular, direccion: i.direccion});
+            infoUser.inmuebles.push({id_inmueble: i.id_inmueble, codInmueble: i.codigoinmueble, titular: i.titular, direccion: i.direccion});
             
         });
 
