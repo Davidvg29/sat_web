@@ -13,7 +13,7 @@ import { Button } from "./ui/button";
 const DrawerPlanContado = () => {
     return ( 
         <Drawer>
-            <DrawerTrigger><Button className="w-35 m-1">Plan de contado</Button></DrawerTrigger>
+            <DrawerTrigger asChild><Button className="w-35 m-1">Plan financiacion</Button></DrawerTrigger>
                 <DrawerContent>
                     <DrawerHeader>
                     <DrawerTitle>Plan de contado.</DrawerTitle>

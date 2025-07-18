@@ -15,10 +15,13 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import validarCodInmueble from "../validations/validarCodInmueble"
 import { Loader } from "./Loader"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import AlertMessage from "./AlertMessage"
+import { alertMessage } from "@/redux/action"
 
 export function ButtonAddInmueble() {
   
+  const dispatch = useDispatch()
   const idUser = useSelector((state)=>state.user.id)
   const [open, setOpen] = useState(false);
   const [codInmueble, setCodInmueble] = useState("")
@@ -56,7 +59,8 @@ export function ButtonAddInmueble() {
       const validation = validarCodInmueble(codInmueble)
       if(!validation){
         setLoader(false)
-        return setMessage("Ingrege un codigo de cliente valido.")
+        setMessage("Ingrese un codigo de cliente valido.")
+        return dispatch(alertMessage(true, false, "Ingrese un codigo de cliente valido."))
       }
       const {data} = await api.get(`/inmueble/${codInmueble}`)
       if(data.status){
@@ -84,8 +88,12 @@ export function ButtonAddInmueble() {
     } catch (error) {
       setLoader(false)
       console.log(error)
-      if(error?.response?.status === 404){return setMessage(error.response.data.message)}
+      if(error?.response?.status === 404){
+        setMessage(error.response.data.message)
+        dispatch(alertMessage(true, false, error.response.data.message))
+      }
       setMessage("Ocurrio un error, intente luego.")
+      dispatch(alertMessage(true, false, "Ocurrio un error, intente luego."))
     }
   }
 
@@ -126,6 +134,7 @@ export function ButtonAddInmueble() {
       if(data.status){
         setLoader(false)
         setOpen(false)
+        dispatch(alertMessage(true, true, "Inmueble asociado correctamente."))
       }
     } catch (error) {
       setLoader(false)
@@ -133,14 +142,19 @@ export function ButtonAddInmueble() {
       if(error.response){
         if(error.response.status === 404){
         setMessage(error.response.data.message)
+        dispatch(alertMessage(true, false, error.response.data.message))
         }else if(error.response.status === 500){
           setMessage("Ocurrio un error, intente mas tarde.")
+          dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
         }
       }else if(error.request){
         setMessage("Ocurrio un error, intente mas tarde.")
+        dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
       }else{
         setMessage("Ocurrio un error, intente mas tarde.")
+        dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
       }
+      dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
     }
   }
 
@@ -179,7 +193,7 @@ export function ButtonAddInmueble() {
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Input id="name-1" name="name" onChange={onChangeCodInmueble} maxLength={8} defaultValue="" placeholder="Ej: 16400000" />
-              <p className="text-center text-red-500">{message}</p>
+              {/* <p className="text-center text-red-500">{message}</p> */}
             </div>
           </div>
           <DialogFooter>
@@ -192,6 +206,7 @@ export function ButtonAddInmueble() {
           {loader ? (<Loader text={textLoader} />) : false}
         </DialogContent>
       </form>
+      <AlertMessage/>
     </Dialog>
   )
 }

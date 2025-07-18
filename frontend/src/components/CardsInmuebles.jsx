@@ -39,9 +39,9 @@ const CardsInmuebles = ({className, ...props}) => {
                         <CardHeader>
                             <div className="flex justify-between items-center">
                                 <CardTitle>{`Nº de inmueble: ${i.codInmueble}`}</CardTitle>
-                                <button className="hover:bg-red-300 p-1 rounded-xs cursor-pointer" onClick={(e) => {e.preventDefault();e.stopPropagation();}}>
+                                <div className="hover:bg-red-300 p-1 rounded-xs cursor-pointer" onClick={(e) => {e.preventDefault();e.stopPropagation();}}>
                                    <DeleteRelacionUserInmueble idUser={idUser} idInmueble={i.id_inmueble} codInmueble={i.codInmueble} isDelete={isDelete}/> 
-                                </button>
+                                </div>
                             </div>
                         </CardHeader>
                         <CardContent>
@@ -56,6 +56,7 @@ const CardsInmuebles = ({className, ...props}) => {
                 ))}
             </div>
             {isDeleteRelacionUserInmueble ? (<AlertMessage/>) : false}
+                {/* <AlertMessage/> */}
         </div>
      );
 }

@@ -10,25 +10,43 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { alertMessage } from "@/redux/action";
 
 import { Trash } from 'lucide-react';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 const DeleteRelacionUserInmueble = ({idUser, idInmueble, codInmueble, isDelete}) => {
+    const dispatch = useDispatch()
+
     const deleteRelacion = async()=>{
+        console.log("PETICION");
+        
         console.log(idUser, idInmueble, codInmueble);
         
         try {
-          const {data} = await api.delete("/inmueble/desasociar",{data: {idUser: idUser, idInmueble: idInmueble}})
-          if(data.status){
+        const { data } = await api.delete("/inmueble/desasociar", {
+            data: { idUser: idUser, idInmueble: idInmueble },
+        });
+
+        if (data.status) {
             console.log("inmueble eliminado");
-            return true
-          }  
-        } catch (error) {
-            console.log(error)
+            // dispatch(alertMessage(false, false, "")); // Reset
+            setTimeout(() => {
+                dispatch(alertMessage(true, true, "Inmueble eliminado correctamente."));
+            }, 50);
+            return;
         }
+    } catch (error) {
+        console.error(error);
+        // dispatch(alertMessage(false, false, "")); // Reset
+        setTimeout(() => {
+            dispatch(alertMessage(true, false, "El inmueble no pudo ser Eliminado, por favor intente mas tarde."));
+        }, 50);
+    }
     }
 
-    return ( 
+    return (
         <AlertDialog>
             <AlertDialogTrigger><Trash/></AlertDialogTrigger>
             <AlertDialogContent>
@@ -41,7 +59,7 @@ const DeleteRelacionUserInmueble = ({idUser, idInmueble, codInmueble, isDelete})
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>No</AlertDialogCancel>
-                    <AlertDialogAction onClick={()=>{deleteRelacion(); isDelete();}}>Si, eliminar.</AlertDialogAction>
+                    <AlertDialogAction onClick={()=>{deleteRelacion(); isDelete()}}>Si, eliminar.</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

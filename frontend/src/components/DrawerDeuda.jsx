@@ -13,7 +13,7 @@ import { Button } from "./ui/button";
 const DrawerDeuda = () => {
     return ( 
         <Drawer>
-            <DrawerTrigger><Button className="w-35 m-1">Ver deuda</Button></DrawerTrigger>
+            <DrawerTrigger asChild><Button className="w-35 m-1">Ver deuda</Button></DrawerTrigger>
                 <DrawerContent>
                     <DrawerHeader>
                     <DrawerTitle>Detalle de deuda</DrawerTitle>

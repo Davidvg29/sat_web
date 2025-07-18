@@ -47,17 +47,17 @@ const Factura = ({factura, className, ...props}) => {
         <Card className={cn("w-80 m-3", className)} {...props}>
             <CardHeader>
                 <div className="flex justify-between items-center">
-                    <CardTitle>Nº Factura: {`${factura.prefijo}-${factura.numFactura}`}</CardTitle>
+                    <CardTitle>Nº {`${factura.prefijo}-${factura.numFactura}`}</CardTitle>
                 {/* <CardDescription>Card Description</CardDescription> */}
                 {/* <CardAction>Card Action</CardAction> */}
                     <div className="w-20 flex flex-col justify-center items-center hover:bg-sky-100 cursor-pointer rounded-lg p-px" onClick={getFacturaPdf}>
                         <Eye/>
                         <p className="text-xs">ver</p>
                     </div>
-                    <div className="w-20 flex flex-col justify-center items-center hover:bg-sky-100 cursor-pointer rounded-lg p-px">
+                    {/* <div className="w-20 flex flex-col justify-center items-center hover:bg-sky-100 cursor-pointer rounded-lg p-px">
                         <FileDown/>
                         <p className="text-xs">descargar</p>
-                    </div>
+                    </div> */}
                 </div>
             </CardHeader>
             <CardContent>

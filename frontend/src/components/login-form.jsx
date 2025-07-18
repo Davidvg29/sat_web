@@ -8,7 +8,8 @@ import { useState } from "react"
 import { useNavigate  } from "react-router-dom"
 import api from "@/axios/api"
 import { useDispatch } from "react-redux"
-import { setUser } from "@/redux/action"
+import { alertMessage, setUser } from "@/redux/action"
+import AlertMessage from "./AlertMessage"
 
 export function LoginForm({className, ...props}){
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ export function LoginForm({className, ...props}){
     username: "",
     password: ""
   })
-  const [message, setMessage] = useState("")
+  // const [message, setMessage] = useState("")
 
   const handleData = (e)=>{
     setData({
@@ -31,20 +32,23 @@ export function LoginForm({className, ...props}){
     try {
       const {data} = await api.post("/user/auth", datas)
       console.log(data)
-      setMessage("")
       dispatch(setUser({username: data.username}))
       navigate("/usuario")
     } catch (error) {
       if(error.response){
         if(error.response.status === 401){
-        setMessage(error.response.data.message)
+        // setMessage(error.response.data.message)
+          dispatch(alertMessage(true, false, error.response.data.message))
         }else if(error.response.status === 500){
-          setMessage("Ocurrio un error, intente mas tarde.")
+          // setMessage("Ocurrio un error, intente mas tarde.")
+          dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
         }
       }else if(error.request){
-        setMessage("Ocurrio un error, intente mas tarde.")
+        // setMessage("Ocurrio un error, intente mas tarde.")
+        dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
       }else{
-        setMessage("Ocurrio un error, intente mas tarde.")
+        // setMessage("Ocurrio un error, intente mas tarde.")
+        dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
       }
     }
   }
@@ -74,7 +78,7 @@ export function LoginForm({className, ...props}){
                 </div>
                 <Input id="password" name="password" value={datas.password} onChange={handleData} type="password" required />
               </div>
-              <p className="text-red-400 text-center">{message}</p>
+              {/* <p className="text-red-400 text-center">{message}</p> */}
               <Button type="submit" className="w-full" onClick={sendData}>
                 Login
               </Button>
@@ -131,6 +135,7 @@ export function LoginForm({className, ...props}){
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
       </div> */}
+      <AlertMessage/>
     </div>
   );
 }
