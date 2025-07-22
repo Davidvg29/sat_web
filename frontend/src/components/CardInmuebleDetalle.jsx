@@ -72,12 +72,9 @@ const CardInmuebleDetalle = ({className, ...props}) => {
                 <div className="flex flex-col justify-center items-center">
                     <div className="flex flex-col justify-center items-center">
                         <h2 className="text-3xl text-center">Información  de inmueble Nº <b>{codInmueble}</b></h2>
-                        {/* <div > */}
+                        <p className="mb-3 text-center">{`Información actualizada al ${facturas_vigentes.length>0 && facturas_vigentes[0].fechaBackup}. Demora hasta 72h hábiles en reflejar pagos por canales externos.`}</p>
                             {nombre.length>0 ? (<p><b>Titular:</b> {nombre}</p>): ""}
-                            {/* <p><b>N.º de inmueble:</b> {codInmueble}</p> */}
-                        {/* </div> */}
                     </div>
-                    {/* <div className="flex justify-center"> */}
                         <div className="flex flex-wrap gap-x-2 justify-center items-center">
                         {calle && <p><b>Dirección:</b></p>}
                             {calle && <p>{calle} {numero !== "00000" ? numero : ""},</p>}
@@ -90,17 +87,13 @@ const CardInmuebleDetalle = ({className, ...props}) => {
                             {barrio && <p>Barrio: {barrio},</p>}
                             {localidad && <p>Localidad: {localidad}.</p>}
                         </div>
-                    {/* </div> */}
-                    {/* <p>{`Información actualizada al ${facturas_vigentes && facturas_vigentes[0].fechaBackup}. Demora hasta 72h hábiles en reflejar pagos por canales externos.`}</p> */}
-                        <div className="w-full flex justify-between items-center mt-5">
-                            <p className="text-3xl" >Facturas a vencer:</p>
-                            <div className="flex flex-col w-100 justify-end items-end">
-                                {/* <Button className="m-1"><DrawerDeuda/></Button> */}
-                                <DrawerDeuda/>
-                                <DrawerPlanContado/>
-                                {/* <Button className="m-1"><DrawerPlanContado/></Button> */}
-                            </div>
+                    <div className="w-full flex justify-between items-center mt-5">
+                        <p className="text-3xl" >Facturas a vencer:</p>
+                        <div className="flex flex-col justify-end items-end">
+                            <DrawerDeuda codInmueble={codInmueble}/>
+                            <DrawerPlanContado/>
                         </div>
+                    </div>
                     <div className="flex flex-wrap justify-center mt-5">
                         {facturas_vigentes && facturas_vigentes.map((f)=>(
                                 <Factura factura={f} key={f.numFactura}/>

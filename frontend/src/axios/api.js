@@ -1,8 +1,9 @@
 import axios from "axios"
+const url_back = import.meta.env.VITE_URL_BACK 
 
 const api = axios.create({
-  baseURL: 'http://138.99.7.27:3000/api',
-  timeout: 3000
+  baseURL: url_back,
+  // timeout: 3000
 });
 
 export default api

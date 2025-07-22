@@ -28,7 +28,7 @@ const CardsInmuebles = ({className, ...props}) => {
 
     return ( 
         <div className={cn("flex flex-col items-center justify-center flex-wrap", className)}{...props}>
-            <div className="flex justify-between items-center w-3/4">
+            <div className="flex justify-between items-center w-full sm:w-3/4">
                 <h2 className="m-5 text-3xl">Tus inmuebles vinculados</h2>
                 <ButtonAddInmueble/>
             </div>

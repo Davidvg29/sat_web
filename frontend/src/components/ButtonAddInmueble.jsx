@@ -196,7 +196,7 @@ export function ButtonAddInmueble() {
               {/* <p className="text-center text-red-500">{message}</p> */}
             </div>
           </div>
-          <DialogFooter>
+          <DialogFooter asChild>
             <DialogClose asChild>
               <Button variant="outline" onClick={clear}>Cancelar</Button>
             </DialogClose>

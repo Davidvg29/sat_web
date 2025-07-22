@@ -38,21 +38,23 @@ export function LoginForm({className, ...props}){
       if(error.response){
         if(error.response.status === 401){
         // setMessage(error.response.data.message)
-          dispatch(alertMessage(true, false, error.response.data.message))
+          return dispatch(alertMessage(true, false, error.response.data.message))
         }else if(error.response.status === 500){
           // setMessage("Ocurrio un error, intente mas tarde.")
-          dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
+          return dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
         }
       }else if(error.request){
         // setMessage("Ocurrio un error, intente mas tarde.")
-        dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
+        return dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
       }else{
         // setMessage("Ocurrio un error, intente mas tarde.")
-        dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
+        return dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
       }
+      // setMessage("Ocurrio un error, intente mas tasdasarde.")
+      return dispatch(alertMessage(true, false, "Ocurrio un error, intente mas tarde."))
     }
   }
-  
+
   return (
     <div className={cn("flex flex-col gap-6 m-5 max-w-md md:max-w-3xl", className)} {...props}>
       <Card className="overflow-hidden p-0">
