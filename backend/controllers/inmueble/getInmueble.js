@@ -1,3 +1,4 @@
+const pool = require("../../config/db");
 const { crearArchivoRemoto, leerArchivoRemotoTes, leerArchivoRemotoTxt, getFacturasVigentesSAT, connectSSH } = require("../../services/funcionesAccesoRemoto");
 const validarCodInmueble = require("../../validations/validarCodInmueble");
 
@@ -129,7 +130,12 @@ const getInmueble = async (req, res) => {
         infoInmueble.informacion.facturas_vigentes = facturas
         console.log("Fin del try de funcion getInmueble")
         conn.end()
-        return res.status(200).json(infoInmueble);
+        res.status(200).json(infoInmueble);
+
+        const inmueble = await pool.query(`SELECT codigoinmueble, nombre FROM inmueble WHERE codigoinmueble = $1`, [codInmueble])
+        if(inmueble.rows[0].nombre !== infoInmueble.informacion.nombre){
+            await pool.query(`UPDATE inmueble SET nombre = $1 WHERE codigoinmueble = $2`, [infoInmueble.informacion.nombre, codInmueble])
+        }
 
     } catch (error) {
         conn.end()
