@@ -1,6 +1,6 @@
 import api from "@/axios/api";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Factura from "./Factura";
 import { cn } from "@/lib/utils";
 import { Loader } from "./Loader";
@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import { ArrowBigDown  } from 'lucide-react';
 import DrawerDeuda from "./DrawerDeuda";
 import DrawerPlanContado from "./DrawerPlanContado";
+import { ArrowLeft } from 'lucide-react';
 
 const CardInmuebleDetalle = ({className, ...props}) => {
     const {codInmueble} = useParams()
@@ -37,6 +38,7 @@ const CardInmuebleDetalle = ({className, ...props}) => {
             try {
                 setLoader(true)
                 const {data} = await api(`/inmueble/${codInmueble}`)
+                console.log(data)
                 setInmueble(data.informacion)
                 if(data.status === true){
                     setLoader(false)
@@ -67,7 +69,10 @@ const CardInmuebleDetalle = ({className, ...props}) => {
 } = inmueble;
 
     return ( 
-        <div className={cn("flex justify-center m-5", className)} {...props}>
+        <div className={cn("flex flex-col justify-center m-5", className)} {...props}>
+            <div className=" flex"> 
+                <Link to="/usuario" className="flex"><ArrowLeft/>volver</Link>
+            </div>
             {error ? <p>{message}</p> : (
                 <div className="flex flex-col justify-center items-center">
                     <div className="flex flex-col justify-center items-center">
@@ -87,7 +92,7 @@ const CardInmuebleDetalle = ({className, ...props}) => {
                             {barrio && <p>Barrio: {barrio},</p>}
                             {localidad && <p>Localidad: {localidad}.</p>}
                         </div>
-                    <div className="w-full flex justify-between items-center mt-5">
+                    <div className="w-full flex justify-around items-center mt-5">
                         <p className="text-3xl" >Facturas a vencer:</p>
                         <div className="flex flex-col justify-end items-end">
                             <DrawerDeuda codInmueble={codInmueble}/>

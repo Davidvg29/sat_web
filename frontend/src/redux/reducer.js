@@ -2,7 +2,13 @@ import { alertMessage } from "./action";
 import { ALERT_MESSAGE, SET_USER } from "./action-types";
 
 const initialState = {
-    user: {},
+    user: {
+      id:"",
+      username: "",
+      name: "",
+      email: "",
+      inmuebles: []
+    },
     alertMessage:{
       active: false,
       status:null,
@@ -14,12 +20,10 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
       return {
-        ...state,
-        user: {
-          ...state.user,         
-          ...action.payload      
-        }
-      };
+    ...state,
+    user: action.payload  // ✅ reemplaza completamente el user
+  };
+
       case ALERT_MESSAGE:
         return {
           ...state, 

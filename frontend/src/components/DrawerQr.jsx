@@ -10,12 +10,16 @@ import {
 } from "@/components/ui/drawer"
 import { Button } from "./ui/button";
 import qr from "../assets/qr.png"
+import { CircleX } from 'lucide-react';
 
 const DrawerQr = () => {
     return ( 
         <Drawer>
   <DrawerTrigger><Button className="w-65 mt-2">PAGAR CON QR</Button></DrawerTrigger>
   <DrawerContent>
+    <DrawerClose className="flex justify-end mr-3">
+      <Button variant="outline"><CircleX/></Button>
+    </DrawerClose>
     <DrawerHeader>
       <DrawerTitle>Pagar con codigo QR.</DrawerTitle>
       <DrawerDescription>Con tu billetera favorita escanea y paga!</DrawerDescription>
@@ -24,9 +28,9 @@ const DrawerQr = () => {
         <img src={qr} alt="" />
     </div>
     <DrawerFooter>
-      <DrawerClose asChild>
+      {/* <DrawerClose asChild>
         <Button variant="outline">Cancel</Button>
-      </DrawerClose>
+      </DrawerClose> */}
     </DrawerFooter>
   </DrawerContent>
 </Drawer>

@@ -14,13 +14,12 @@ import { ButtonAddInmueble } from "./ButtonAddInmueble";
 import DeleteRelacionUserInmueble from "./DeleteRelacionUserInmueble";
 import { Alert } from "./ui/alert";
 import AlertMessage from "./AlertMessage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CardsInmuebles = ({className, ...props}) => {
-    const inmuebles = useSelector((state)=>state.user.inmuebles)
-    const idUser = useSelector((state)=>state.user.id)
+    const {id, username, inmuebles} = useSelector((state)=>state.user)
     const [isDeleteRelacionUserInmueble, setIsDeleteRelacionUserInmueble] = useState(false)
-    console.log(inmuebles)
+    console.log(username)
 
     const isDelete = ()=>{
         setIsDeleteRelacionUserInmueble(true)
@@ -34,13 +33,13 @@ const CardsInmuebles = ({className, ...props}) => {
             </div>
             <div className="flex items-center justify-center flex-wrap">
                 {inmuebles && inmuebles.map((i)=>(
-                    <Link className="m-3 w-80" to={`/usuario/inmueble/${i.codInmueble}`} key={i.codInmueble}>
-                        <Card>
+                    <Link className="m-3 " to={`/usuario/inmueble/${i.codInmueble}`} key={i.codInmueble}>
+                        <Card className="w-80 h-60 overflow-auto">
                         <CardHeader>
                             <div className="flex justify-between items-center">
                                 <CardTitle>{`Nº de inmueble: ${i.codInmueble}`}</CardTitle>
                                 <div className="hover:bg-red-300 p-1 rounded-xs cursor-pointer" onClick={(e) => {e.preventDefault();e.stopPropagation();}}>
-                                   <DeleteRelacionUserInmueble idUser={idUser} idInmueble={i.id_inmueble} codInmueble={i.codInmueble} isDelete={isDelete}/> 
+                                   <DeleteRelacionUserInmueble idUser={id} username={username} idInmueble={i.id_inmueble} codInmueble={i.codInmueble} isDelete={isDelete}/> 
                                 </div>
                             </div>
                         </CardHeader>

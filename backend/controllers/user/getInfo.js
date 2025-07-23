@@ -42,6 +42,7 @@ const getInfo = async(req, res)=>{
         //console.log(relacion)
         const infoUser = {
             id: user.rows[0].id_user,
+            username: user.rows[0].username,
             name: user.rows[0].name,
             email: user.rows[0].email,
             inmuebles: []

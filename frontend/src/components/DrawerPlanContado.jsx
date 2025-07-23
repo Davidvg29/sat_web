@@ -9,20 +9,24 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Button } from "./ui/button";
+import { CircleX } from 'lucide-react';
 
 const DrawerPlanContado = () => {
     return ( 
         <Drawer>
             <DrawerTrigger asChild><Button className="w-35 m-1">Plan financiacion</Button></DrawerTrigger>
                 <DrawerContent>
+                    <DrawerClose className="flex justify-end mr-3">
+                        <Button variant="outline"><CircleX/></Button>
+                    </DrawerClose>
                     <DrawerHeader>
                     <DrawerTitle>Plan de contado.</DrawerTitle>
                     <DrawerDescription>This action cannot be undone.</DrawerDescription>
                     </DrawerHeader>
                     <DrawerFooter>
-                    <DrawerClose>
+                    {/* <DrawerClose>
                         <Button variant="outline">Cancel</Button>
-                    </DrawerClose>
+                    </DrawerClose> */}
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>

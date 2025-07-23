@@ -10,20 +10,21 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { alertMessage } from "@/redux/action";
+import { alertMessage, setUser } from "@/redux/action";
 
 import { Trash } from 'lucide-react';
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const DeleteRelacionUserInmueble = ({idUser, idInmueble, codInmueble, isDelete}) => {
+const DeleteRelacionUserInmueble = ({idUser, username, idInmueble, codInmueble, isDelete}) => {
     const dispatch = useDispatch()
+    const user = useSelector(state=>state.user)
 
+    console.log(user);
     const deleteRelacion = async()=>{
         console.log("PETICION");
         
         console.log(idUser, idInmueble, codInmueble);
-        
         try {
         const { data } = await api.delete("/inmueble/desasociar", {
             data: { idUser: idUser, idInmueble: idInmueble },
@@ -35,6 +36,11 @@ const DeleteRelacionUserInmueble = ({idUser, idInmueble, codInmueble, isDelete})
             setTimeout(() => {
                 dispatch(alertMessage(true, true, "Inmueble eliminado correctamente."));
             }, 50);
+            const data2 = await api.get(`user/?username=${username}`)
+            console.log(data2)
+            if(data2.status){
+                dispatch(setUser(data2.data.data))
+            }
             return;
         }
     } catch (error) {
