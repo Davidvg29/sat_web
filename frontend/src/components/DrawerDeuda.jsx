@@ -42,11 +42,15 @@ const DrawerDeuda = ({codInmueble}) => {
         <Drawer>
             <DrawerTrigger asChild><Button className="w-35 m-1">Ver deuda</Button></DrawerTrigger>
                 <DrawerContent>
-                    <DrawerHeader>
-                    <DrawerTitle>Detalle de deuda</DrawerTitle>
+                        <DrawerClose className="flex justify-end mr-3">
+                            <Button variant="outline">x</Button>
+                        </DrawerClose>
+                        <DrawerHeader className="p-0">
+                            <DrawerTitle>Detalle de deuda</DrawerTitle>
+                        </DrawerHeader>
                     <TableCaption className="m-3">Informacion actualizada al {deudas.length>0 && deudas[0].fechaBackup}. Demora hasta 72h hábiles en reflejar pagos por canales externos. No incluye planes de deuda, facturas en gestión judicial ni en gestión extra judicial</TableCaption>
                     <DrawerDescription >
-                        <div className="overflow-x-auto max-h-[500px] flex justify-center">
+                        <div className="overflow-x-auto max-h-[50vh] flex justify-center">
                             <table className="w-300 text-sm ">
                                 <thead className="bg-gray-100 sticky top-0 z-10">
                                 <tr>
@@ -73,11 +77,10 @@ const DrawerDeuda = ({codInmueble}) => {
                             </table>
                         </div>
                     </DrawerDescription>
-                    </DrawerHeader>
                     <DrawerFooter>
-                    <DrawerClose>
+                    {/* <DrawerClose>
                         <Button variant="outline">Cancelar</Button>
-                    </DrawerClose>
+                    </DrawerClose> */}
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
