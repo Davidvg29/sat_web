@@ -9,6 +9,7 @@ const user = async()=>{
                 username TEXT UNIQUE NOT NULL,
                 password TEXT NOT NULL,
                 email TEXT UNIQUE NOT NULL,
+                roll TEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT NOW()
             );
         `);
