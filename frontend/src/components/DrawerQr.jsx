@@ -11,11 +11,12 @@ import {
 import { Button } from "./ui/button";
 import qr from "../assets/qr.png"
 import { CircleX } from 'lucide-react';
+import { QrCode } from 'lucide-react';
 
 const DrawerQr = () => {
     return ( 
         <Drawer>
-  <DrawerTrigger><Button className="w-65 mt-2">PAGAR CON QR</Button></DrawerTrigger>
+  <DrawerTrigger><Button className="w-65 mt-2 cursor-pointer">PAGAR CON QR <QrCode/></Button></DrawerTrigger>
   <DrawerContent>
     <DrawerClose className="flex justify-end mr-3">
       <Button variant="outline"><CircleX/></Button>

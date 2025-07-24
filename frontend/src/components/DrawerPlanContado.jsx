@@ -10,11 +10,12 @@ import {
 } from "@/components/ui/drawer"
 import { Button } from "./ui/button";
 import { CircleX } from 'lucide-react';
+import { Handshake } from 'lucide-react';
 
 const DrawerPlanContado = () => {
     return ( 
         <Drawer>
-            <DrawerTrigger asChild><Button className="w-35 m-1">Plan financiacion</Button></DrawerTrigger>
+            <DrawerTrigger asChild><Button className="w-35 m-1">Financiacion <Handshake/></Button></DrawerTrigger>
                 <DrawerContent>
                     <DrawerClose className="flex justify-end mr-3">
                         <Button variant="outline"><CircleX/></Button>

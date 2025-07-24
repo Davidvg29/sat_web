@@ -18,6 +18,7 @@ import { Loader } from "./Loader"
 import { useDispatch, useSelector } from "react-redux"
 import AlertMessage from "./AlertMessage"
 import { alertMessage, setUser } from "@/redux/action"
+import { HousePlus } from 'lucide-react';
 
 export function ButtonAddInmueble() {
   
@@ -168,7 +169,7 @@ export function ButtonAddInmueble() {
     <Dialog open={open} onOpenChange={(isOpen) => {setOpen(isOpen);if (!isOpen) clear();}}>
       <form>
         <DialogTrigger asChild>
-          <Button variant="outline" className="cursor-pointer">Vincular Inmueble</Button>
+          <Button variant="outline" className="cursor-pointer">Vincular Inmueble<HousePlus/></Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

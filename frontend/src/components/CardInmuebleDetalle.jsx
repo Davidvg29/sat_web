@@ -70,7 +70,7 @@ const CardInmuebleDetalle = ({className, ...props}) => {
 
     return ( 
         <div className={cn("flex flex-col justify-center m-5", className)} {...props}>
-            <div className=" flex"> 
+            <div className=" flex mb-3"> 
                 <Link to="/usuario" className="flex"><ArrowLeft/>volver</Link>
             </div>
             {error ? <p>{message}</p> : (

@@ -15,6 +15,9 @@ import DeleteRelacionUserInmueble from "./DeleteRelacionUserInmueble";
 import { Alert } from "./ui/alert";
 import AlertMessage from "./AlertMessage";
 import { useEffect, useState } from "react";
+import { MapPinHouse } from 'lucide-react';
+import { MailPlus } from 'lucide-react';
+import { User } from 'lucide-react';
 
 const CardsInmuebles = ({className, ...props}) => {
     const {id, username, inmuebles} = useSelector((state)=>state.user)
@@ -34,12 +37,15 @@ const CardsInmuebles = ({className, ...props}) => {
             <div className="flex items-center justify-center flex-wrap">
                 {inmuebles && inmuebles.map((i)=>(
                     <Link className="m-3 " to={`/usuario/inmueble/${i.codInmueble}`} key={i.codInmueble}>
-                        <Card className="w-80 h-60 overflow-auto">
+                        <Card className="w-80 h-70 overflow-auto">
                         <CardHeader>
                             <div className="flex justify-between items-center">
-                                <CardTitle>{`Nº de inmueble: ${i.codInmueble}`}</CardTitle>
-                                <div className="hover:bg-red-300 p-1 rounded-xs cursor-pointer" onClick={(e) => {e.preventDefault();e.stopPropagation();}}>
-                                   <DeleteRelacionUserInmueble idUser={id} username={username} idInmueble={i.id_inmueble} codInmueble={i.codInmueble} isDelete={isDelete}/> 
+                                <CardTitle className="flex items-center"><MapPinHouse className="mr-2"/>{`Nº: ${i.codInmueble}`}</CardTitle>
+                                <div className="flex justify-center items-center">
+                                    <MailPlus/>
+                                    <div className="ml-5" onClick={(e) => {e.preventDefault();e.stopPropagation();}}>
+                                    <DeleteRelacionUserInmueble idUser={id} username={username} idInmueble={i.id_inmueble} codInmueble={i.codInmueble} isDelete={isDelete}/> 
+                                    </div>
                                 </div>
                             </div>
                         </CardHeader>

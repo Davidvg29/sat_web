@@ -54,7 +54,7 @@ const DeleteRelacionUserInmueble = ({idUser, username, idInmueble, codInmueble, 
 
     return (
         <AlertDialog>
-            <AlertDialogTrigger><Trash/></AlertDialogTrigger>
+            <AlertDialogTrigger className="hover:bg-red-300 p-2 rounded-xs cursor-pointer bg-red-50 shadow-md"><Trash/></AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>¿Seguro deseas eliminar el inmueble de tu cuenta?</AlertDialogTitle>

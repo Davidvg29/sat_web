@@ -13,7 +13,7 @@ import DrawerQr from "./DrawerQr";
 import api from "@/axios/api";
 import { useState } from "react";
 import { Loader } from "./Loader";
-
+import { FileText } from 'lucide-react';
 import { Eye, FileDown } from 'lucide-react';
 
 const Factura = ({factura, className, ...props}) => {
@@ -47,10 +47,10 @@ const Factura = ({factura, className, ...props}) => {
         <Card className={cn("w-80 m-3", className)} {...props}>
             <CardHeader>
                 <div className="flex justify-between items-center">
-                    <CardTitle>Nº {`${factura.prefijo}-${factura.numFactura}`}</CardTitle>
+                    <CardTitle className="flex items-center"><FileText className="mr-1"/>Nº {`${factura.prefijo}-${factura.numFactura}`}</CardTitle>
                 {/* <CardDescription>Card Description</CardDescription> */}
                 {/* <CardAction>Card Action</CardAction> */}
-                    <div className="w-20 flex flex-col justify-center items-center hover:bg-sky-100 cursor-pointer rounded-lg p-px" onClick={getFacturaPdf}>
+                    <div className="w-20 flex flex-col shadow-md justify-center items-center bg-sky-50 hover:bg-sky-100 cursor-pointer rounded-lg p-px" onClick={getFacturaPdf}>
                         <Eye/>
                         <p className="text-xs">ver</p>
                     </div>
@@ -60,16 +60,27 @@ const Factura = ({factura, className, ...props}) => {
                     </div> */}
                 </div>
             </CardHeader>
-            <CardContent>
-                <p>Periodo: {factura.periodo}</p>
-                <p>Vencimiento: {factura.vencimiento}</p>
-                <p className="text-2xl text-center"><b >$ {factura.importe}</b></p>
+            <CardContent className="flex flex-col items-center justify-center">
+                <div className="flex justify-around">
+                    <div className="shadow p-2 m-1 w-30 rounded-sm">
+                        <p className="text-xs">Periodo</p>
+                        <p className="text-lg">{factura.periodo}</p>
+                    </div>
+                    <div className="shadow p-2 m-1 bg-red-50 w-30 rounded-sm">
+                        <p className="text-xs">Vencimiento</p>
+                        <p className="text-lg">{factura.vencimiento}</p>
+                    </div>
+                </div>
+                <div className="shadow w-50 p-2 m-1 rounded-sm">
+                    <p className="text-xs">Total</p>
+                    <p className="text-2xl text-center"><b >$ {factura.importe}</b></p>
+                </div>
             </CardContent>
             {/* <Button>PAGAR CON QR</Button> */}
             <div className=" flex flex-col items-center">
                 <DrawerQr factura={factura}/>
-                <Button className="w-65 mt-2">CLICK DE PAGO</Button>
-                <Button className="w-65 mt-2">MERCADO PAGO</Button>
+                <Button className="w-65 mt-2 cursor-pointer">CLICK DE PAGO</Button>
+                <Button className="w-65 mt-2 cursor-pointer">MERCADO PAGO</Button>
                 {/* <Button className="w-65 mt-2" onClick={getFacturaPdf}>VER PDF</Button> */}
             </div>
             {/* <CardFooter>

@@ -21,6 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { CircleX } from 'lucide-react';
+import { ReceiptText } from 'lucide-react';
 
 const DrawerDeuda = ({codInmueble}) => {
 
@@ -41,7 +42,7 @@ const DrawerDeuda = ({codInmueble}) => {
 
     return ( 
         <Drawer>
-            <DrawerTrigger asChild><Button className="w-35 m-1">Ver deuda</Button></DrawerTrigger>
+            <DrawerTrigger asChild><Button className="w-35 m-1">Ver deuda <ReceiptText/></Button></DrawerTrigger>
                 <DrawerContent>
                         <DrawerClose className="flex justify-end mr-3">
                             <Button variant="outline"><CircleX/></Button>
