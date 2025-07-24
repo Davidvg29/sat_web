@@ -17,12 +17,13 @@ import validarCodInmueble from "../validations/validarCodInmueble"
 import { Loader } from "./Loader"
 import { useDispatch, useSelector } from "react-redux"
 import AlertMessage from "./AlertMessage"
-import { alertMessage } from "@/redux/action"
+import { alertMessage, setUser } from "@/redux/action"
 
 export function ButtonAddInmueble() {
   
   const dispatch = useDispatch()
   const idUser = useSelector((state)=>state.user.id)
+  const username = useSelector((state)=>state.user.username)
   const [open, setOpen] = useState(false);
   const [codInmueble, setCodInmueble] = useState("")
   const [inmueble, setInmueble] = useState({
@@ -134,7 +135,12 @@ export function ButtonAddInmueble() {
       if(data.status){
         setLoader(false)
         setOpen(false)
-        dispatch(alertMessage(true, true, "Inmueble asociado correctamente."))
+        dispatch(alertMessage(true, true, data.message))
+        const data2 = await api.get(`user/?username=${username}`)
+        // console.log(data2)
+        if(data2.status){
+            dispatch(setUser(data2.data.data))
+        }
       }
     } catch (error) {
       setLoader(false)
