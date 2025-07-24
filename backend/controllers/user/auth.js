@@ -1,5 +1,6 @@
 const pool = require("../../config/db")
 const {comparePassword} = require("../../services/authService")
+const {createToken} = require("../../middlewares/jwt")
 
 const auth = async (req, res) => {
   try {
@@ -20,8 +21,11 @@ const auth = async (req, res) => {
       return res.status(401).json({ message: "Credenciales incorrectas" });
     }
 
+    const token = createToken({username: username})
+
     res.status(200).json({ 
       username: username,
+      token: token,
       message: "Autenticación exitosa" 
     });
 

@@ -1,8 +1,10 @@
+const {verifyToken} = require("../../middlewares/jwt")
 const pool = require("../../config/db")
 
 const getInfo = async(req, res)=>{
     try {
         const {username} = req.query
+        verifyToken(req.headers.authorization?.split(" ")[1])
         const queryUser = `SELECT * FROM users WHERE username = $1`
         const user = await pool.query(queryUser, [username])
         if(user.rowCount !== 1){
@@ -59,10 +61,18 @@ const getInfo = async(req, res)=>{
         })
     } catch (error) {
         console.error("Error:", error);
+        let message
+        if (error.name === "TokenExpiredError") {
+            message = "Sesion expirada, inicie sesion otra vez.";
+        } else if (error.name === "JsonWebTokenError") {
+            message = "Inicio de sesion invalida.";
+        } else {
+            message = "Error en sesion:", error.message;
+        }
         res.status(500).json({
         status: false,
         message: "Error al obtener informacion del usuario",
-        error: error.message
+        error: message
         });
     }
 }
