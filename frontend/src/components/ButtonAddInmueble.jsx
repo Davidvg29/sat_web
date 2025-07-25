@@ -64,7 +64,7 @@ export function ButtonAddInmueble() {
         setMessage("Ingrese un codigo de cliente valido.")
         return dispatch(alertMessage(true, false, "Ingrese un codigo de cliente valido."))
       }
-      const {data} = await api.get(`/inmueble/${codInmueble}`)
+      const {data} = await api.get(`/inmueble/${codInmueble}`,{ withCredentials: true })
       if(data.status){
         setBtnVincular(false)
         setBtnBuscar(true)
@@ -131,13 +131,13 @@ export function ButtonAddInmueble() {
     try {
       setTextLoader("Vinculando inmueble...")
       setLoader(true)
-      const {data} = await api.post("/inmueble/asociar", {idUser: idUser, codInmueble: codInmueble})
+      const {data} = await api.post("/inmueble/asociar", {idUser: idUser, codInmueble: codInmueble}, { withCredentials: true })
       console.log(data)
       if(data.status){
         setLoader(false)
         setOpen(false)
         dispatch(alertMessage(true, true, data.message))
-        const data2 = await api.get(`user/?username=${username}`)
+        const data2 = await api.get(`user/?username=${username}`, { withCredentials: true })
         // console.log(data2)
         if(data2.status){
             dispatch(setUser(data2.data.data))

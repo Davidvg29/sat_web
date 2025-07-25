@@ -1,9 +1,21 @@
+
+const { verifyToken } = require("../../middlewares/jwt");
 const { connectSSH, getFacturasVigentesSAT } = require("../../services/funcionesAccesoRemoto")
 const path = require("path")
 const fs = require("fs").promises
 
 const getFacturaPdf = async(req, res)=>{
     try {
+        // const token = req.cookies.token;
+        // console.log(token)
+        // if (!token) {
+        //     return res.status(404).json({
+        //         status: false,
+        //         message: "Sesion no iniciada, inicie de nuevo.",
+        //         error: "Token no encontrado."
+        //     });
+        // }
+        // verifyToken(token) 
         const {numFactura} = req.params
         const nombreArchivo = `res_facturas_vigentes${numFactura}.pdf`
         const conn = await connectSSH()

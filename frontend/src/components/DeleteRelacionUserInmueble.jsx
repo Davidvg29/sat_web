@@ -28,6 +28,7 @@ const DeleteRelacionUserInmueble = ({idUser, username, idInmueble, codInmueble, 
         try {
         const { data } = await api.delete("/inmueble/desasociar", {
             data: { idUser: idUser, idInmueble: idInmueble },
+            withCredentials: true 
         });
 
         if (data.status) {
@@ -36,7 +37,7 @@ const DeleteRelacionUserInmueble = ({idUser, username, idInmueble, codInmueble, 
             setTimeout(() => {
                 dispatch(alertMessage(true, true, "Inmueble eliminado correctamente."));
             }, 50);
-            const data2 = await api.get(`user/?username=${username}`)
+            const data2 = await api.get(`user/?username=${username}`, { withCredentials: true })
             console.log(data2)
             if(data2.status){
                 dispatch(setUser(data2.data.data))

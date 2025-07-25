@@ -27,7 +27,7 @@ const Factura = ({factura, className, ...props}) => {
         setLoader(true)
         try {
             const response = await api.get(`/factura/${factura.prefijo}${factura.numFactura}`, {
-            responseType: 'blob', 
+            responseType: 'blob',
             });
             const blob = new Blob([response.data], { type: 'application/pdf' });
             const blobUrl = URL.createObjectURL(blob);

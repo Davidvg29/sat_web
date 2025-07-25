@@ -14,7 +14,7 @@ const User = ()=>{
     useEffect(()=>{
         const getInfoUser = async()=>{
             try {
-                const {data} = await api.get(`user/?username=${user.username}`)
+                const {data} = await api.get(`user/?username=${user.username}`,{withCredentials: true})
                 if(data.status){
                     dispatch(setUser(data.data))
                 }
@@ -30,7 +30,7 @@ const User = ()=>{
             }
         }
         getInfoUser()
-    },[])
+    },[user.username])
 
     return(
         <>

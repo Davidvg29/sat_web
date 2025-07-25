@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import imgPlaceholder from "../assets/placeholder.svg"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate  } from "react-router-dom"
 import api from "@/axios/api"
 import { useDispatch } from "react-redux"
@@ -20,6 +20,21 @@ export function LoginForm({className, ...props}){
   })
   // const [message, setMessage] = useState("")
 
+  useEffect(() => {
+  const verifyUser = async () => {
+    try {
+      const { data } = await api.get("/user/verify", { withCredentials: true });
+      console.log(data);
+      // dispatch(setUser({username: data}))
+      navigate("/usuario")
+    } catch (error) {
+      console.log("no anda token");
+      // navigate("/login")
+    }
+  };
+  verifyUser();
+}, []);
+
   const handleData = (e)=>{
     setData({
       ...datas,
@@ -30,7 +45,7 @@ export function LoginForm({className, ...props}){
   const sendData = async(e)=>{
     e.preventDefault()
     try {
-      const {data} = await api.post("/user/auth", datas)
+      const {data} = await api.post("/user/auth", datas, {withCredentials: true})
       console.log(data)
       dispatch(setUser({username: data.username}))
       navigate("/usuario")

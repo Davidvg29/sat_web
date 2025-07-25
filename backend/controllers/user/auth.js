@@ -23,6 +23,13 @@ const auth = async (req, res) => {
 
     const token = createToken({username: username})
 
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'Strict',
+      maxAge: 900000, //15 minutos
+    });
+
     res.status(200).json({ 
       username: username,
       token: token,

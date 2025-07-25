@@ -37,7 +37,7 @@ const CardInmuebleDetalle = ({className, ...props}) => {
         const getInfoInmueble = async()=>{
             try {
                 setLoader(true)
-                const {data} = await api(`/inmueble/${codInmueble}`)
+                const {data} = await api.get(`/inmueble/${codInmueble}`, { withCredentials: true })
                 console.log(data)
                 setInmueble(data.informacion)
                 if(data.status === true){

@@ -30,7 +30,7 @@ const DrawerDeuda = ({codInmueble}) => {
     useEffect(()=>{
         const data = async()=>{
             try {
-                const {data} = await api.get(`/inmueble/deuda/${codInmueble}`)
+                const {data} = await api.get(`/inmueble/deuda/${codInmueble}`, { withCredentials: true })
                 console.log(data)
                 setDeudas(data.informacion)
             } catch (error) {
