@@ -1,22 +1,9 @@
 const pool = require("../../config/db");
-const { verifyToken } = require("../../middlewares/jwt");
 const { crearArchivoRemoto, leerArchivoRemotoTes, leerArchivoRemotoTxt, getFacturasVigentesSAT, connectSSH } = require("../../services/funcionesAccesoRemoto");
 const validarCodInmueble = require("../../validations/validarCodInmueble");
 
 const getInmueble = async (req, res) => {
     try {
-        const token = req.cookies.token;
-        console.log(token);
-        
-        if (!token) {
-            return res.status(401).json({
-                status: false,
-                message: "Sesion no iniciada, inicie de nuevo.",
-                error: "Token no encontrado."
-            });
-        }
-        verifyToken(token)
-
         const { codInmueble } = req.params;
 
         const validar = validarCodInmueble(codInmueble)

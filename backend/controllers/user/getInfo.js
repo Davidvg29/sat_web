@@ -1,17 +1,7 @@
-const {verifyToken} = require("../../middlewares/jwt")
 const pool = require("../../config/db")
 
 const getInfo = async(req, res)=>{
     try {
-        const token = req.cookies.token;
-        if (!token) {
-            return res.status(401).json({
-                status: false,
-                message: "Sesion no iniciada, inicie de nuevo.",
-                error: "Token no encontrado."
-            });
-        }
-        verifyToken(token)
         const {username} = req.query
         const queryUser = `SELECT * FROM users WHERE username = $1`
         const user = await pool.query(queryUser, [username])

@@ -1,17 +1,7 @@
 const { connectSSH, leerArchivoRemotoTes, leerArchivoRemotoTxt } = require("../../services/funcionesAccesoRemoto")
-const { verifyToken } = require("../../middlewares/jwt");
 
 const getDeuda = async(req, res)=>{
     try {
-        const token = req.cookies.token;
-        if (!token) {
-            return res.status(401).json({
-                status: false,
-                message: "Sesion no iniciada, inicie de nuevo.",
-                error: "Token no encontrado."
-            });
-        }
-        verifyToken(token)
         const {codInmueble} = req.params
         const conn = await connectSSH()
         const archivoTes = await leerArchivoRemotoTes(`res_estado_de_cuentas${codInmueble}.tes`, conn)
