@@ -4,7 +4,7 @@ const getInfo = async(req, res)=>{
     try {
         const {username} = req.query
         const queryUser = `SELECT * FROM users WHERE username = $1`
-        const user = await pool.query(queryUser, [username])
+        const user = await pool.query(queryUser, [username?username:req.user.username])
         if(user.rowCount !== 1){
             return res.status(404).json({
                     status: false,
