@@ -11,10 +11,12 @@ const getDeuda = require('../controllers/inmueble/getDeuda');
 
 //middleware que verifica el jwt(agreagr en cada endpoint que necesite estar protegido)
 const { verifyToken } = require('../middlewares/jwt');
+const logout = require('../controllers/user/logout');
 
 //user
 router.post("/user/auth", auth);
 router.get("/user", verifyToken, getInfo)
+router.post("/user/logout", logout)
 
 //inmueble
 router.post("/inmueble/asociar", verifyToken, relacionUserInmueble)
