@@ -20,20 +20,20 @@ export function LoginForm({className, ...props}){
   })
   // const [message, setMessage] = useState("")
 
-  useEffect(() => {
-  const verifyUser = async () => {
-    try {
-      const { data } = await api.get("/user/verify", { withCredentials: true });
-      console.log(data);
-      // dispatch(setUser({username: data}))
-      navigate("/usuario")
-    } catch (error) {
-      console.log("no anda token");
-      // navigate("/login")
-    }
-  };
-  verifyUser();
-}, []);
+//   useEffect(() => {
+//   const verifyUser = async () => {
+//     try {
+//       const { data } = await api.get("/user/verify", { withCredentials: true });
+//       console.log(data);
+//       // dispatch(setUser({username: data}))
+//       navigate("/usuario")
+//     } catch (error) {
+//       console.log("no anda token");
+//       // navigate("/login")
+//     }
+//   };
+//   verifyUser();
+// }, []);
 
   const handleData = (e)=>{
     setData({

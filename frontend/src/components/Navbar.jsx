@@ -20,9 +20,27 @@ import {
 
 import { Menu } from 'lucide-react';
 import { CircleUserRound } from 'lucide-react';
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import api from "@/axios/api";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/redux/action";
 
 const Navbar = (className, ...props) => {
+    const dispatch = useDispatch()
+    const {username} = useSelector((state)=>state.user)
+console.log(username.length)
+    const logout = async()=>{
+        try {
+            const {data} = await api.post('/user/logout', {}, { withCredentials: true })
+            if(data.status = 200){
+                dispatch(setUser({username:""}))
+                Navigate('/login')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return ( 
         <div className="flex justify-center items-center mr-3">
                 
@@ -90,7 +108,7 @@ const Navbar = (className, ...props) => {
         </div>
                 <Link to="/login"><CircleUserRound size={30} className="m-3"/></Link>
                 <Sheet className="m-3">
-                <SheetTrigger className=" block lg:hidden"><Menu size={30}/></SheetTrigger>
+                <SheetTrigger className=" "><Menu size={30}/></SheetTrigger>
                 <SheetContent>
                     <SheetHeader>
                     <SheetTitle>Menu</SheetTitle>
@@ -98,6 +116,7 @@ const Navbar = (className, ...props) => {
                         This action cannot be undone. This will permanently delete your account
                         and remove your data from our servers.
                     </SheetDescription>
+                    {typeof username === "string" && username.length > 0 ? ( <SheetTitle onClick={logout} className="cursor-pointer">Cerrar sesión</SheetTitle>) : null}
                     </SheetHeader>
                 </SheetContent>
                 </Sheet>
